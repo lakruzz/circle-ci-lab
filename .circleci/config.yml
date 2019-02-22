@@ -9,7 +9,6 @@ jobs:
     docker:
       - image: lakruzz/jekyll-plus:1.0.1
       - image: lakruzz/play
-        name: play
     steps:
       - checkout
       - run:
@@ -19,7 +18,7 @@ jobs:
             env | sort | grep "CIRCLE"
       - run:
           name: Intro
-          command: play:play --manuscript .circleci/manuscript.yml --part gitintro
+          command: lakruzz/play play --manuscript .circleci/manuscript.yml --part gitintro
       - run:
           name: Swap to target branch and test integration
           command: play --manuscript .circleci/manuscript.yml --part integrate
