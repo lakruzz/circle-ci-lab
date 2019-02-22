@@ -1,0 +1,44 @@
+
+version: 2
+jobs:
+
+  build:
+    working_directory: /app
+    docker:
+      - image: lakruzz/jekyll-plus:1.0.1
+      - image: lakruzz/play:latest
+          name: play
+    steps:
+      - checkout
+      - run:
+          name: run play from docker
+          command: play --manuscript .circleci/manuscript.yml --part integrate
+      - run:
+          name: Jekyll
+          command: jekyll build
+      - save_cache:
+          key: the-site-{{ .Revision }}
+          paths:
+            - _site
+
+  test:
+    working_directory: /app
+    docker:
+      - image: 18fgsa/html-proofer
+    steps:
+      - restore_cache:
+          keys:
+            - the-site-{{ .Revision }}
+      - run:
+          name: Htmlproofer
+          command: htmlproofer --disable-external --allow-hash-href --checks-to-ignore ImageCheck --check-favicon _site
+
+
+workflows:
+  version: 2
+  play:
+    jobs:
+      - build:
+      - test:
+          requires:
+            - build
