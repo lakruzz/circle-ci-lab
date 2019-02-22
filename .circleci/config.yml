@@ -8,7 +8,8 @@ jobs:
     # Your build commands run in this container.
     docker:
       - image: lakruzz/jekyll-plus:1.0.1
-      - image: lakruzz/play:latest
+      - image: lakruzz/play
+        name: play
     steps:
       - checkout
       - run:
@@ -18,7 +19,7 @@ jobs:
             env | sort | grep "CIRCLE"
       - run:
           name: Intro
-          command: play --manuscript .circleci/manuscript.yml --part gitintro
+          command: play:play --manuscript .circleci/manuscript.yml --part gitintro
       - run:
           name: Swap to target branch and test integration
           command: play --manuscript .circleci/manuscript.yml --part integrate
