@@ -7,7 +7,6 @@ jobs:
     docker:
       - image: lakruzz/jekyll-plus:1.0.1
       - image: lakruzz/play:latest
-        name: play
     steps:
       - checkout
       - run:
@@ -20,7 +19,6 @@ jobs:
           key: the-site-{{ .Revision }}
           paths:
             - _site
-
   test:
     working_directory: /app
     docker:
@@ -33,10 +31,9 @@ jobs:
           name: Htmlproofer
           command: htmlproofer --disable-external --allow-hash-href --checks-to-ignore ImageCheck --check-favicon _site
 
-
 workflows:
   version: 2
-  play:
+  play_flow:
     jobs:
       - build:
       - test:
