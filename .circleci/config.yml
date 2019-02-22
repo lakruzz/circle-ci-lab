@@ -9,7 +9,6 @@ jobs:
     docker:
       - image: lakruzz/jekyll-plus:1.0.1
       - image: lakruzz/play:latest
-        name: play
     steps:
       - checkout
       - run:
