@@ -119,6 +119,7 @@ workflows:
             - integrate
             - build
             - test
+            - test2
           filters:
             branches:
               only:
