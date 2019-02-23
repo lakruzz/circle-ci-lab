@@ -111,8 +111,6 @@ jobs:
 
   deploy:
     working_directory: /app
-    # The primary container is an instance of the first list image listed.
-    # Your commands in context of this container.
     docker:
       - image: lakruzz/play:latest
         environment:
@@ -133,10 +131,10 @@ workflows:
   Proflow:
     jobs:
       - integrate # Rebase from remote target, merge FF to target
-        filters:
-          branches:
-            ignore:
-              - /master/
+          filters:
+            branches:
+              ignore:
+                - /master/
       - jekyll-build: # The thing to deploy
           requires:
             - integrate
