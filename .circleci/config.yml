@@ -102,7 +102,7 @@ workflows:
   version: 2
   Phlow:
     jobs:
-      - integrate:
+      - integrate
       - build:
           requires:
             - integrate
