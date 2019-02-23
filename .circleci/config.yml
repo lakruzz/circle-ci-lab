@@ -30,7 +30,7 @@ jobs:
           name: Swap to target branch and integrate
           command: play --manuscript .circleci/phlow.yml --part integrate
       - save_cache:
-          key: the-repo-{{.Revision}}
+          key: the-integrated-repo-{{.Revision}}
           paths:
             - .
 
@@ -41,7 +41,7 @@ jobs:
     steps:
       - restore_cache:
           keys:
-            - the-repo-{{ .Revision }}
+            - the-integrated-repo-{{ .Revision }}
       - run:
           name: Jekyll
           command: jekyll build
@@ -51,10 +51,9 @@ jobs:
             git rev-parse --short HEAD > _site/version.txt
             cat _site/version.txt
       - save_cache:
-          key: the-deploy-{{ .Revision }}
+          key: the-built-repo-{{ .Revision }}
           paths:
-            - .circleci
-            - _site
+            - .
 
   html-proofer:
     working_directory: /app
@@ -63,7 +62,7 @@ jobs:
     steps:
       - restore_cache:
           keys:
-            - the-deploy-{{ .Revision }}
+            - the-built-repo-{{ .Revision }}
       - run:
           name: Htmlproofer
           command: htmlproofer --disable-external --allow-hash-href --checks-to-ignore ImageCheck --check-favicon _site
@@ -75,7 +74,7 @@ jobs:
     steps:
       - restore_cache:
           keys:
-            - the-deploy-{{ .Revision }}
+            - the-built-repo-{{ .Revision }}
       - run:
           name: Htmlproofer
           command: htmlproofer --disable-external --allow-hash-href --checks-to-ignore ImageCheck --check-favicon _site
@@ -87,7 +86,7 @@ jobs:
     steps:
       - restore_cache:
           keys:
-            - the-deploy-{{ .Revision }}
+            - the-built-repo-{{ .Revision }}
       - run:
           name: Htmlproofer
           command: htmlproofer --disable-external --allow-hash-href --checks-to-ignore ImageCheck --check-favicon _site
@@ -99,7 +98,7 @@ jobs:
     steps:
       - restore_cache:
           keys:
-            - the-repo-{{ .Revision }}
+            - the-integrated-repo-{{ .Revision }}
       - run:
           name: Deliver
           command: play --manuscript .circleci/phlow.yml --part deliver
@@ -115,7 +114,7 @@ jobs:
     steps:
       - restore_cache:
           keys:
-            - the-deploy-{{ .Revision }}
+            - the-built-repo-{{ .Revision }}
       - run:
           name: Version
           command: cat version.txt
