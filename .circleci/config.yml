@@ -109,11 +109,34 @@ jobs:
           name: Deliver
           command: play --manuscript .circleci/phlow.yml --part deliver
 
+  deploy:
+    working_directory: /app
+    # The primary container is an instance of the first list image listed.
+    # Your commands in context of this container.
+    docker:
+      - image: lakruzz/play:latest
+        environment:
+          PLAY_USER_NAME:    Circle CI by @Lakruzz
+          PLAY_USER_EMAIL:   circleci@lakruzz.com
+          PLAY_REMOTEREPO:   origin
+          PLAY_TARGETBRANCH: master
+    steps:
+      - restore_cache:
+          keys:
+            - the-deploy-{{ .Revision }}
+      - run:
+          name: Deploying
+          command: cat version.txt
+
 workflows:
   version: 2
   Proflow:
     jobs:
       - integrate # Rebase from remote target, merge FF to target
+        filters:
+          branches:
+            ignore:
+              - /master/
       - jekyll-build: # The thing to deploy
           requires:
             - integrate
@@ -139,3 +162,7 @@ workflows:
             branches:
               only:
                 - /ready\/.*/
+      - deploy:
+          filters:
+            only:
+              - /master/
