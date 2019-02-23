@@ -23,11 +23,11 @@ jobs:
             ls -a
             git rev-parse --short HEAD
       - run:
-          name: Git setup user
-          command: play --manuscript .circleci/manuscript.yml --part git_prep
+          name: Prep the git repo for delivery
+          command: play --manuscript .circleci/phlow.yml --part git_prep
       - run:
           name: Swap to target branch and integrate
-          command: play --manuscript .circleci/manuscript.yml --part integrate
+          command: play --manuscript .circleci/phlow.yml --part integrate
       - save_cache:
           key: the-repo-{{.Revision}}
           paths:
@@ -83,7 +83,7 @@ jobs:
             git rev-parse --short HEAD
       - run:
           name: Deliver
-          command: play --manuscript .circleci/manuscript.yml --part deliver
+          command: play --manuscript .circleci/phlow.yml --part deliver
 
 workflows:
   version: 2
