@@ -108,15 +108,15 @@ workflows:
       - test: # Verify that the thing to deploy is good
           requires:
             - integrate
-            - build
+            - jekyll-build
       - test2: # Run more tests in parallel
           requires:
             - integrate
-            - build
+            - jekyll-build
       - deliver: # Push the target branch to remote - only when all is good and only on ready branches
           requires:
             - integrate
-            - build
+            - jekyll-build
             - test
             - test2
           filters:
