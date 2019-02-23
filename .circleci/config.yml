@@ -5,14 +5,13 @@ jobs:
   integrate:
     working_directory: /app
     # The primary container is an instance of the first list image listed.
-    # Your build commands run in this container.
+    # Your commands in context of this container.
     docker:
-      - image: lakruzz/play
-      - image: lakruzz/jekyll-plus:1.0.1
+      - image: lakruzz/play:latest
     steps:
       - checkout
       - run:
-          name: Environment
+          name: Describe the Environment
           command: |
             git --version
             env | sort | grep "CIRCLE"
@@ -22,17 +21,19 @@ jobs:
       - run:
           name: Swap to target branch and test integration
           command: play --manuscript .circleci/manuscript.yml --part integrate
+      - save_cache:
+          key: the-repo-{{.Revision}}
+          paths:
+            - .
 
   build:
     working_directory: /app
     docker:
       - image: lakruzz/jekyll-plus:1.0.1
-      - image: lakruzz/play:latest
     steps:
-      - checkout
-      - run:
-          name: Swap to target branch and integrate
-          command: play --manuscript .circleci/manuscript.yml --part integrate
+      - restore_cache:
+          keys:
+            - the-repo-{{ .Revision }}
       - run:
           name: Where am I
           command: |
@@ -62,7 +63,6 @@ jobs:
   deliver:
     working_directory: /app
     docker:
-      - image: lakruzz/jekyll-plus:1.0.1
       - image: lakruzz/play:latest
     steps:
       - checkout
