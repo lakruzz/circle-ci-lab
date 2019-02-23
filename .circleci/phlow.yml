@@ -54,9 +54,9 @@ manuscript:
         - run:
             caption: DEBUG
             command: |
-            printenv $PLAY_GHTOKEN
-            printenv $GHTOKEN
-            git remote --v
+              printenv $PLAY_GHTOKEN
+              printenv $GHTOKEN
+              git remote --v
         - run:
             caption: Push current branch to GitHub
             command: git push ghtoken
