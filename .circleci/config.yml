@@ -162,5 +162,6 @@ workflows:
                 - /ready\/.*/
       - deploy:
           filters:
-            only:
-              - /master/
+            branches:
+              only:
+                - /master/
