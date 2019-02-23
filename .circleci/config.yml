@@ -18,11 +18,14 @@ jobs:
           command: |
             git --version
             env | sort | grep "CIRCLE"
+            pwd
+            ls -a
+            git rev-parse --short HEAD
       - run:
-          name: Intro
+          name: Git setup
           command: play --manuscript .circleci/manuscript.yml --part gitintro
       - run:
-          name: Swap to target branch and test integration
+          name: Swap to target branch and integrate
           command: play --manuscript .circleci/manuscript.yml --part integrate
       - save_cache:
           key: the-repo-{{.Revision}}
