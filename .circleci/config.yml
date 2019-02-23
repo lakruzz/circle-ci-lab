@@ -67,9 +67,6 @@ jobs:
     working_directory: /app
     docker:
       - image: lakruzz/play:latest
-        environment:
-          PLAY_USER_NAME: Circle CI by @Lakruzz
-          PLAY_USER_EMAIL: circleci@lakruzz.com
     steps:
       - restore_cache:
           keys:
@@ -80,9 +77,6 @@ jobs:
             pwd
             ls -a
             git rev-parse --short HEAD
-      - run:
-          name: Intro
-          command: play --manuscript .circleci/manuscript.yml --part gitintro            
       - run:
           name: Deliver
           command: play --manuscript .circleci/manuscript.yml --part deliver
