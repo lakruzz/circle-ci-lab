@@ -67,7 +67,8 @@ jobs:
       - run:
           name: Htmlproofer
           command: htmlproofer --disable-external --allow-hash-href --checks-to-ignore ImageCheck --check-favicon _site
-  test2:
+
+  test_ii:
     working_directory: /app
     docker:
       - image: 18fgsa/html-proofer
@@ -78,7 +79,6 @@ jobs:
       - run:
           name: Htmlproofer
           command: htmlproofer --disable-external --allow-hash-href --checks-to-ignore ImageCheck --check-favicon _site
-    
 
   deliver:
     working_directory: /app
