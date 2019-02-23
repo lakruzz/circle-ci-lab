@@ -124,7 +124,7 @@ jobs:
             - the-deploy-{{ .Revision }}
       - run:
           name: Deploying
-          command: cat version.txt
+          command: cat _site/version.txt
 
 workflows:
   version: 2
