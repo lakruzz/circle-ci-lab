@@ -11,8 +11,6 @@ manuscript:
       props:
         - PLAY_VERSION:      ${CIRCLE_SHA1:=`git rev-parse HEAD`}
         - PLAY_VER:          '`printenv PLAY_VERSION | cut -c 1-7`'
-        - PLAY_REMOTEBRANCH: '`echo $PLAY_REMOTEREPO/$PLAY_TARGETBRANCH`'
-        - PLAY_TARGETVER:    '`git rev-parse --short $PLAY_REMOTEBRANCH`'
       scene:
         verbose: 1
         dryrun:  0
@@ -20,7 +18,7 @@ manuscript:
       lines:
         - run:
             caption: Rebase to remote target branch
-            command: git rebase $PLAY_REMOTEBRANCH
+            command: git rebase $PLAY_REMOTEREPO/$PLAY_TARGETBRANCH
             die_on_err: yes
         - run:
             caption: Checkout target branch
