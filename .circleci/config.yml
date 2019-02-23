@@ -70,8 +70,6 @@ jobs:
     working_directory: /app
     docker:
       - image: lakruzz/play:latest
-        environment:
-          PLAY_GHTOKEN: $GHTOKEN
     steps:
       - restore_cache:
           keys:
