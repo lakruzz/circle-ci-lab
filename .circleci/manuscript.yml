@@ -19,7 +19,7 @@ manuscript:
         debug:   0
       lines:
         - run:
-            caption: Rebase to remote branch
+            caption: Rebase to remote target branch
             command: git rebase $PLAY_REMOTEBRANCH
             die_on_err: yes
         - run:
@@ -27,11 +27,11 @@ manuscript:
             command: git checkout $PLAY_TARGETBRANCH
             die_on_err: yes
         - run:
-            caption: Pull latest
+            caption: Pull latest from remote target branch
             command: git pull $PLAY_REMOTEREPO $PLAY_TARGETBRANCH
             die_on_err: yes
         - run:
-            caption: Merge
+            caption: Merge the triggering commit into target branch
             command: git merge --ff-only $PLAY_VER
             die_on_err: yes
     deploy:
@@ -45,28 +45,30 @@ manuscript:
         verbose: yes
       lines:
         - run:
-            caption:
+            caption: Set GitHub token remote
             command: git remote add ghtoken https://$GHTOKEN@github.com/$PLAY_GITREPO.git
             die_on_err: yes
         - run:
-            caption:
+            caption: Push current branch to GitHub
             command: git push ghtoken
             die_on_err: yes
         - run:
-            caption:
+            caption: Delete the remote triggering branch
             command: git push ghtoken :$CIRCLE_BRANCH
             die_on_err: yes
     gitintro:
       props:
+        - PLAY_USER_NAME: "Circle CI by @Lakruzz"
+        - PLAY_USER_EMAIL: "circleci@lakruzz.com"
       scene:
         dryrun: no
         verbose: yes
       lines:
         - run:
             caption:
-            command: git config user.name "Circle CI by @Lakruzz"
+            command: git config user.name $PLAY_USER_NAME
             die_on_err: yes
         - run:
             caption:
-            command: git config user.email "circleci@lakruzz.com"
+            command: git config user.email $PLAY_USER_EMAIL
             die_on_err: yes
