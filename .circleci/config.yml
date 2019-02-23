@@ -67,6 +67,18 @@ jobs:
       - run:
           name: Htmlproofer
           command: htmlproofer --disable-external --allow-hash-href --checks-to-ignore ImageCheck --check-favicon _site
+  test2:
+    working_directory: /app
+    docker:
+      - image: 18fgsa/html-proofer
+    steps:
+      - restore_cache:
+          keys:
+            - the-deploy-{{ .Revision }}
+      - run:
+          name: Htmlproofer
+          command: htmlproofer --disable-external --allow-hash-href --checks-to-ignore ImageCheck --check-favicon _site
+    
 
   deliver:
     working_directory: /app
@@ -91,16 +103,23 @@ workflows:
   Phlow:
     jobs:
       - integrate:
-          filters:
-            branches:
-              only:
-                - /ready\/.*/
       - build:
           requires:
             - integrate
       - test:
           requires:
+            - integrate
+            - build
+      - test2:
+          reguires:
+            - integrate
             - build
       - deliver:
           requires:
+            - integrate
+            - build
             - test
+          filters:
+            branches:
+              only:
+                - /ready\/.*/
