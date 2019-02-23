@@ -2,7 +2,7 @@
 version: 2
 jobs:
 
-  proflow-integrate:
+  integrate:
     working_directory: /app
     # The primary container is an instance of the first list image listed.
     # Your commands in context of this container.
@@ -79,7 +79,7 @@ jobs:
           name: Htmlproofer
           command: htmlproofer --disable-external --allow-hash-href --checks-to-ignore ImageCheck --check-favicon _site
 
-  proflow-deliver:
+  deliver:
     working_directory: /app
     docker:
       - image: lakruzz/play:latest
@@ -101,21 +101,21 @@ workflows:
   version: 2
   Proflow:
     jobs:
-      - proflow-integrate # Rebase from remote target, merge FF to target
+      - integrate # Rebase from remote target, merge FF to target
       - jekyll-build: # The thing to deploy
           requires:
-            - proflow-integrate
+            - integrate
       - html-proofer: # Verify that the thing to deploy is good
           requires:
-            - proflow-integrate
+            - integrate
             - jekyll-build
       - test2: # Run more tests in parallel
           requires:
             - proflow-integrate
             - jekyll-build
-      - proflow-deliver: # Push the target branch to remote - only when all is good and only on ready branches
+      - deliver: # Push the target branch to remote - only when all is good and only on ready branches
           requires:
-            - proflow-integrate
+            - integrate
             - jekyll-build
             - html-proofer
             - test2
