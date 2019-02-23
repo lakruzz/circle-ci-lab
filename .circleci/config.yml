@@ -34,7 +34,7 @@ jobs:
           paths:
             - .
 
-  build:
+  jekyll-build:
     working_directory: /app
     docker:
       - image: lakruzz/jekyll-plus:1.0.1
@@ -43,11 +43,10 @@ jobs:
           keys:
             - the-repo-{{ .Revision }}
       - run:
-          name: Where am I
+          name: Log the version
           command: |
-            pwd
-            ls -a
-            git rev-parse --short HEAD
+            git rev-parse --short HEAD > _site/version.txt
+            cat _site/version.txt
       - run:
           name: Jekyll
           command: jekyll build
@@ -102,19 +101,19 @@ workflows:
   version: 2
   Phlow:
     jobs:
-      - integrate
-      - build:
+      - integrate # Rebase from remote target, merge FF to target
+      - jekyll-build: # The thing to deploy
           requires:
             - integrate
-      - test:
-          requires:
-            - integrate
-            - build
-      - test2:
+      - test: # Verify that the thing to deploy is good
           requires:
             - integrate
             - build
-      - deliver:
+      - test2: # Run more tests in parallel
+          requires:
+            - integrate
+            - build
+      - deliver: # Push the target branch to remote - only when all is good and only on ready branches
           requires:
             - integrate
             - build
