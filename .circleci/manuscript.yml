@@ -59,7 +59,7 @@ manuscript:
     gitintro:
       props:
         - PLAY_USER_NAME: "Circle CI by @Lakruzz"
-        - PLAY_USER_EMAIL: "circleci@lakruzz.com"
+        - PLAY_USER_EMAIL: circleci@lakruzz.com
       scene:
         dryrun: no
         verbose: yes
