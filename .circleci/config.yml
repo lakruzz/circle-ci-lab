@@ -100,31 +100,30 @@ jobs:
           keys:
             - the-repo-{{ .Revision }}
       - run:
-          name: Where am I?
-          command: |
-            pwd
-            ls -a
-            git rev-parse --short HEAD
-      - run:
           name: Deliver
           command: play --manuscript .circleci/phlow.yml --part deliver
 
-  deploy:
-    working_directory: /app
+  stage-deploy:
+    working_directory: /app/_site
     docker:
       - image: lakruzz/play:latest
         environment:
           PLAY_USER_NAME:    Circle CI by @Lakruzz
           PLAY_USER_EMAIL:   circleci@lakruzz.com
-          PLAY_REMOTEREPO:   origin
-          PLAY_TARGETBRANCH: master
+          PLAY_GITREPO:      lakruzz/stage-circle-lab
     steps:
       - restore_cache:
           keys:
             - the-deploy-{{ .Revision }}
       - run:
-          name: Deploying
-          command: cat _site/version.txt
+          name: Version
+          command: cat version.txt
+      - run:
+          name: Use CNAME.stage
+          command: cp -f CNAME.stage CNAME
+      - run:
+          name: Prep the git repo for delivery
+          command: play --manuscript .circleci/phlow.yml --part ghpages_deploy
 
 workflows:
   version: 2
@@ -156,11 +155,12 @@ workflows:
             - jekyll-build
             - html-proofer
             - test2
+            - test3
           filters:
             branches:
               only:
                 - /ready\/.*/
-      - deploy:
+      - stage-deploy:
           filters:
             branches:
               only:

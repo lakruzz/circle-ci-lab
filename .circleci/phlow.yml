@@ -35,9 +35,46 @@ manuscript:
         - run:
             caption: Expose commit to cache
             command: git rev-parse --short HEAD
-    deploy:
+
+    ghpages_deploy:
       props:
       scene:
+        verbose: yes
+      lines:
+        - run:
+            caption: Set the git user.name
+            command: git config user.name "$PLAY_USER_NAME"
+            die_on_err: yes
+        - run:
+            caption: Set the git.user.email
+            command: git config user.email "$PLAY_USER_EMAIL"
+            die_on_err: yes
+        - run:
+            caption: Who am I?
+            command: |
+              git config user.name
+              git config user.email
+        - run:
+            caption: Make it a git repo
+            command: git init
+            die_on_err: yes
+        - run:
+            caption: Set GitHub token remote
+            command: git remote add ghtoken https://$PHLOW_GHTOKEN@github.com/$PLAY_GITREPO.git
+            die_on_err: yes
+        - run:
+            caption: Add all files
+            command: git add -A .
+            die_on_err: yes
+        - run:
+            name: Git commit
+            command: git commit -F version.txt
+            die_on_err: yes
+        - run:
+            name: Git push depth 1
+            command: git push -f stage master
+            die_on_err: yes
+
     deliver:
       props:
         - PLAY_GITREPO: '`git remote get-url  $PLAY_REMOTEREPO | sed  s/".*github.com[\/:]//" | sed s/.git//`'
