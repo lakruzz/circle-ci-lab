@@ -58,12 +58,13 @@ manuscript:
             die_on_err: yes
     gitintro:
       props:
-        - PLAY_USER_NAME: Circle CI by @Lakruzz
-        - PLAY_USER_EMAIL: circleci@lakruzz.com
       scene:
         dryrun: no
         verbose: yes
       lines:
+        - run:
+            caption: DEBUG
+            command: git config --global -l
         - run:
             caption:
             command: git config user.name "$PLAY_USER_NAME"
