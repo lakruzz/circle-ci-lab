@@ -130,7 +130,7 @@ workflows:
   version: 2
   Proflow:
     jobs:
-      - integrate # Rebase from remote target, merge FF to target
+      - integrate: # Rebase from remote target, merge FF to target
           filters:
             branches:
               ignore:
