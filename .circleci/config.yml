@@ -110,7 +110,7 @@ workflows:
           requires:
             - integrate
             - build
-      - test2:
+      - test_ii:
           reguires:
             - integrate
             - build
