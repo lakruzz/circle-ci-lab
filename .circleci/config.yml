@@ -111,7 +111,7 @@ workflows:
             - jekyll-build
       - test2: # Run more tests in parallel
           requires:
-            - proflow-integrate
+            - integrate
             - jekyll-build
       - deliver: # Push the target branch to remote - only when all is good and only on ready branches
           requires:
