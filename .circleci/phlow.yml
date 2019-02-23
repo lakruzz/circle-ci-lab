@@ -43,20 +43,17 @@ manuscript:
     deliver:
       props:
         - PLAY_GITREPO: '`git remote get-url  $PLAY_REMOTEREPO | sed  s/".*github.com[\/:]//" | sed s/.git//`'
-        - PLAY_GHTOKEN: ${PLAY_GHTOKEN:=$GHTOKEN}
       scene:
         dryrun:  no
         verbose: yes
       lines:
         - run:
             caption: Set GitHub token remote
-            command: git remote add ghtoken https://$PLAY_GHTOKEN@github.com/$PLAY_GITREPO.git
+            command: git remote add ghtoken https://$PHLOW_GHTOKEN@github.com/$PLAY_GITREPO.git
             die_on_err: yes
         - run:
             caption: DEBUG
             command: |
-              printenv $PLAY_GHTOKEN
-              printenv $GHTOKEN
               git remote --v
         - run:
             caption: Push current branch to GitHub
