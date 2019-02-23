@@ -72,4 +72,4 @@ manuscript:
             die_on_err: yes
         - run:
             caption: DEBUG
-            command: git config
+            command: git config -l
