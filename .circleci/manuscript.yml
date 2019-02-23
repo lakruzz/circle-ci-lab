@@ -63,9 +63,6 @@ manuscript:
         verbose: yes
       lines:
         - run:
-            caption: DEBUG
-            command: git config --global -l
-        - run:
             caption:
             command: git config user.name "$PLAY_USER_NAME"
             die_on_err: yes
@@ -73,3 +70,6 @@ manuscript:
             caption:
             command: git config user.email "$PLAY_USER_EMAIL"
             die_on_err: yes
+        - run:
+            caption: DEBUG
+            command: git config
