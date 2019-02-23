@@ -79,6 +79,18 @@ jobs:
           name: Htmlproofer
           command: htmlproofer --disable-external --allow-hash-href --checks-to-ignore ImageCheck --check-favicon _site
 
+  test3:
+    working_directory: /app
+    docker:
+      - image: 18fgsa/html-proofer
+    steps:
+      - restore_cache:
+          keys:
+            - the-deploy-{{ .Revision }}
+      - run:
+          name: Htmlproofer
+          command: htmlproofer --disable-external --allow-hash-href --checks-to-ignore ImageCheck --check-favicon _site
+
   deliver:
     working_directory: /app
     docker:
@@ -110,6 +122,10 @@ workflows:
             - integrate
             - jekyll-build
       - test2: # Run more tests in parallel
+          requires:
+            - integrate
+            - jekyll-build
+      - test3: # Run more tests in parallel
           requires:
             - integrate
             - jekyll-build
