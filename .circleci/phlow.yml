@@ -1,7 +1,7 @@
 manuscript:
   props:
-    - PLAY_REMOTEREPO:   origin
-    - PLAY_TARGETBRANCH: master
+    - PLAY_REMOTEREPO:   ${PLAY_REMOTEREPO:=origin}
+    - PLAY_TARGETBRANCH: ${PLAY_TARGETBRANCH:=master}
   scene:
     dryrun:  0
     verbose: 1
@@ -51,10 +51,6 @@ manuscript:
             caption: Set GitHub token remote
             command: git remote add ghtoken https://$PHLOW_GHTOKEN@github.com/$PLAY_GITREPO.git
             die_on_err: yes
-        - run:
-            caption: DEBUG
-            command: |
-              git remote --v
         - run:
             caption: Push current branch to GitHub
             command: git push ghtoken

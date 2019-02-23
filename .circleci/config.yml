@@ -9,8 +9,10 @@ jobs:
     docker:
       - image: lakruzz/play:latest
         environment:
-          PLAY_USER_NAME: Circle CI by @Lakruzz
-          PLAY_USER_EMAIL: circleci@lakruzz.com
+          PLAY_USER_NAME:    Circle CI by @Lakruzz
+          PLAY_USER_EMAIL:   circleci@lakruzz.com
+          PLAY_REMOTEREPO:   origin
+          PLAY_TARGETBRANCH: master
     steps:
       - checkout
       - run:
@@ -70,8 +72,6 @@ jobs:
     working_directory: /app
     docker:
       - image: lakruzz/play:latest
-        environment:
-          PHLOW_GHTOKEN: ${PHLOW_GHTOKEN:=$GHTOKEN}
     steps:
       - restore_cache:
           keys:
