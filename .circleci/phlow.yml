@@ -61,7 +61,7 @@ manuscript:
         - run:
             caption: Set git push.default
             command: git config --global push.default simple
-            die_on_err: yes          
+            die_on_err: yes
         - run:
             caption: Set GitHub token remote
             command: git remote add ghtoken https://$PHLOW_GHTOKEN@github.com/$PLAY_GITREPO.git
@@ -72,7 +72,7 @@ manuscript:
             die_on_err: yes
         - run:
             name: Git commit
-            command: git commit -F version.txt
+            command: git config user.name && git commit -F version.txt
             die_on_err: yes
         - run:
             name: Git push depth 1
