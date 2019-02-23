@@ -53,6 +53,7 @@ jobs:
       - save_cache:
           key: the-deploy-{{ .Revision }}
           paths:
+            - .circleci
             - _site
 
   html-proofer:
@@ -123,7 +124,7 @@ jobs:
           command: cp -f CNAME.stage CNAME
       - run:
           name: Prep the git repo for delivery
-          command: play --manuscript .circleci/phlow.yml --part ghpages_deploy
+          command: play --manuscript ../.circleci/phlow.yml --part ghpages_deploy
 
 workflows:
   version: 2
