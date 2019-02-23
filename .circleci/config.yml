@@ -11,7 +11,6 @@ jobs:
         environment:
           PLAY_USER_NAME: Circle CI by @Lakruzz
           PLAY_USER_EMAIL: circleci@lakruzz.com
-          PLAY_GHTOKEN: $GHTOKEN
     steps:
       - checkout
       - run:
@@ -71,6 +70,8 @@ jobs:
     working_directory: /app
     docker:
       - image: lakruzz/play:latest
+        environment:
+          PLAY_GHTOKEN: $GHTOKEN
     steps:
       - restore_cache:
           keys:
