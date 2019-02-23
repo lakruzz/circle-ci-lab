@@ -66,7 +66,7 @@ manuscript:
       lines:
         - run:
             caption:
-            command: git config user.name "$PLAY_USER_NAME2
+            command: git config user.name "$PLAY_USER_NAME"
             die_on_err: yes
         - run:
             caption:
