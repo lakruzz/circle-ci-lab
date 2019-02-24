@@ -12,6 +12,8 @@ manuscript:
         - PLAY_VERSION:        ${CIRCLE_SHA1:=`git rev-parse HEAD`}
         - PLAY_REPOSITORY_URL: ${CIRCLE_REPOSITORY_URL:=PLAY_REPOSITORY_URL}
         - PLAY_REPOSITORY:     '`printenv PLAY_REPOSITORY_URL | sed  s/".*github.com[\/:]//" | sed s/.git//`'
+        - PLAY_TARGETBRANCH:   ${PLAY_TARGETBRANCH:=master}
+        - PLAY_REMOTEREPO:     ${PLAY_REMOTEREPO:=origin}
 
       scene:
         verbose: 1
