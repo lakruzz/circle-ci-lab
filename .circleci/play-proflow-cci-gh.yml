@@ -24,6 +24,9 @@ manuscript:
             command: git checkout $PLAY_TARGETBRANCH
             die_on_err: yes
         - run:
+            name: Pull from remote
+            command: git pull $PLAY_REMOTER
+        - run:
             caption: Merge the ready-branch into target branch
             command: git merge --ff-only $CIRCLE_BRANCH
             die_on_err: yes
