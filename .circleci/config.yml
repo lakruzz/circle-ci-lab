@@ -29,12 +29,11 @@ jobs:
           name: Introduce the user to the git repo, to prepare for delivery
           command: play --manuscript .circleci/play-proflow-cci-gh.yml --part git_set_user
       - run:
+          name: If we're on a ready branch then integrate
           command: |
             export IS_READY=`printenv CIRCLE_BRANCH | grep -e "ready\/*" && echo TRUE || echo ""`
             printenv IS_READY
-      - run:
-          name: If we're on a ready branch then integrate
-          command: '[[ -z "$IS_READY" ]] && echo Not a ready branch || play --manuscript .circleci/play-proflow-cci-gh.yml --part integrate || echo Not a ready-branch'
+            [[ -z "$IS_READY" ]] && echo Not a ready branch || play --manuscript .circleci/play-proflow-cci-gh.yml --part integrate
       - run:
           name: Create version.txt
           command: play --manuscript .circleci/play-proflow-cci-gh.yml --part write-version-to-file
