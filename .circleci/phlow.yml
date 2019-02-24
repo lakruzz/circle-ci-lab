@@ -104,8 +104,3 @@ manuscript:
             caption: Set the git.user.email
             command: git config user.email "$PLAY_USER_EMAIL"
             die_on_err: yes
-        - run:
-            caption: Who am I?
-            command: |
-              git config user.name
-              git config user.email

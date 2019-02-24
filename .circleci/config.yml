@@ -109,6 +109,8 @@ jobs:
       - image: lakruzz/play:latest
         environment:
           PLAY_GITREPO:      lakruzz/stage-circle-lab
+          PLAY_USER_NAME:    Circle CI by @Lakruzz
+          PLAY_USER_EMAIL:   circleci@lakruzz.com
     steps:
       - restore_cache:
           keys:
@@ -119,6 +121,9 @@ jobs:
       - run:
           name: Use CNAME.stage
           command: cp -f CNAME.stage CNAME
+      - run:
+          name: Prep the git repo for delivery
+          command: play --manuscript .circleci/phlow.yml --part git_prep
       - run:
           name: Deploy to GitHub Pages
           command: play --manuscript ../.circleci/phlow.yml --part ghpages_deploy
