@@ -42,14 +42,6 @@ manuscript:
         verbose: yes
       lines:
         - run:
-            caption: Set the git user.name
-            command: git config user.name "$PLAY_USER_NAME"
-            die_on_err: yes
-        - run:
-            caption: Set the git.user.email
-            command: git config user.email "$PLAY_USER_EMAIL"
-            die_on_err: yes
-        - run:
             caption: Who am I?
             command: |
               git config user.name
@@ -72,7 +64,7 @@ manuscript:
             die_on_err: yes
         - run:
             name: Git commit
-            command: git config user.name && git commit -F version.txt
+            command: git commit -F version.txt
             die_on_err: yes
         - run:
             name: Git push depth 1
