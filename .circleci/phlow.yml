@@ -46,6 +46,7 @@ manuscript:
             command: |
               git config user.name
               git config user.email
+            die_on_err: yes
         - run:
             caption: Make it a git repo
             command: git init
@@ -64,7 +65,10 @@ manuscript:
             die_on_err: yes
         - run:
             name: Git commit
-            command: git commit -F version.txt
+            command: |
+              git config user.name
+              git config user.email
+              git commit -F version.txt
             die_on_err: yes
         - run:
             name: Git push depth 1
