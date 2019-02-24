@@ -134,7 +134,7 @@ workflows:
             branches:
               ignore:
                 - /master/
-      - jekyll-build: # The thing to deploy
+      - jekyll-build # The thing to deploy
       - html-proofer: # Verify that the thing to deploy is good
           requires:
             - jekyll-build
