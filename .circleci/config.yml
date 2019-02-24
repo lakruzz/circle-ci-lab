@@ -129,22 +129,17 @@ workflows:
   version: 2
   Proflow:
     jobs:
-      - integrate: # Rebase from remote target, merge FF to target
-          filters:
-            branches:
-              ignore:
-                - /master/
-      - cache-repo:
-          filters:
-            branches:
-              only:
-                - /master/
-      - jekyll-build # The thing to deploy
+      - integrate # Rebase from remote target, merge FF to target
+      - jekyll-build:
+          requires: # Create the thing to deploy
+            - integrate
       - html-proofer: # Verify that the thing to deploy is good
           requires:
+            - integrate
             - jekyll-build
       - test2: # Run more tests in parallel
           requires:
+            - integrate
             - jekyll-build
       - test3: # Run more tests in parallel
           requires:
@@ -152,6 +147,7 @@ workflows:
             - jekyll-build
       - deliver: # Push the target branch to remote - only when all is good and only on ready branches
           requires:
+            - integrate
             - jekyll-build
             - html-proofer
             - test2
@@ -162,6 +158,7 @@ workflows:
                 - /ready\/.*/
       - stage-deploy:
           requires:
+            - integrate
             - jekyll-build
             - html-proofer
             - test2
