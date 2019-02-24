@@ -8,7 +8,6 @@ manuscript:
   parts:
     integrate:
       props:
-        - PLAY_REPOSITORY:     '`printenv CIRCLE_REPOSITORY_URL | sed  s/".*github.com[\/:]//" | sed s/.git//`'
         - PLAY_TARGETBRANCH:   ${PLAY_TARGETBRANCH:=master} # Preset the variable to override default
         - PLAY_REMOTEREPO:     ${PLAY_REMOTEREPO:=origin}   # Preset the variable to override default
       scene:
@@ -28,6 +27,13 @@ manuscript:
             caption: Merge the ready-branch into target branch
             command: git merge --ff-only $CIRCLE_BRANCH
             die_on_err: yes
+
+    write-version-to-file:
+      props:
+        - PLAY_REPOSITORY:     '`printenv CIRCLE_REPOSITORY_URL | sed  s/".*github.com[\/:]//" | sed s/.git//`'
+      scene:
+        verbose: 1
+      lines:
         - run:
             caption: Capture version in versions.txt
             command: echo "Built from GitHub repo $PLAY_REPOSITORY version `git rev-parse --short HEAD`" > version.txt
