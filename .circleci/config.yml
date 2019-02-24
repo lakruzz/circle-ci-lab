@@ -123,7 +123,7 @@ jobs:
           command: cp -f CNAME.stage CNAME
       - run:
           name: Prep the git repo for delivery
-          command: play --manuscript .circleci/phlow.yml --part git_prep
+          command: play --manuscript ../.circleci/phlow.yml --part git_prep
       - run:
           name: Deploy to GitHub Pages
           command: play --manuscript ../.circleci/phlow.yml --part ghpages_deploy
