@@ -42,12 +42,6 @@ manuscript:
         verbose: yes
       lines:
         - run:
-            caption: Who am I?
-            command: |
-              git config user.name
-              git config user.email
-            die_on_err: yes
-        - run:
             caption: Make it a git repo
             command: git init
             die_on_err: yes
@@ -64,11 +58,14 @@ manuscript:
             command: git add -A .
             die_on_err: yes
         - run:
-            name: Git commit
+            caption: Who am I?
             command: |
               git config user.name
               git config user.email
-              git commit -F version.txt
+            die_on_err: yes
+        - run:
+            name: Git commit
+            command: git commit -F version.txt
             die_on_err: yes
         - run:
             name: Git push depth 1
