@@ -114,7 +114,7 @@ jobs:
             - the-built-repo-{{ .Revision }}
       - run:
           name: Use CNAME.stage if it exist
-          command: [[ -e CNAME.stage ]] && cp -f CNAME.stage CNAME || echo No CNAME.stage file found 
+          command: '[[ -e CNAME.stage ]] && cp -f CNAME.stage CNAME || echo No CNAME.stage file found'
       - run:
           name: Deploy to GitHub Pages
           command: play --manuscript ../.circleci/play-proflow-cci-gh --part ghpages_deploy
