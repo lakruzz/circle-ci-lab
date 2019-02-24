@@ -27,7 +27,7 @@ manuscript:
             name: Pull from remote
             command: git pull $PLAY_REMOTER
         - run:
-            caption: Fast-Forward the ready-branch into target branch - if it fails then rebase to $PLAY_REMOTEREPO/$PLAY_TARGETBRANCH before you deliver.
+            caption: Fast-Forward the ready-branch into target branch - if it fails then rebase to the upstream branch before you deliver.
             command: git merge --ff-only $CIRCLE_BRANCH
             die_on_err: yes
 
