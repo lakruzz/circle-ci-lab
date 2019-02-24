@@ -9,8 +9,8 @@ manuscript:
     integrate:
       props:
         - PLAY_REPOSITORY:     '`printenv CIRCLE_REPOSITORY_URL | sed  s/".*github.com[\/:]//" | sed s/.git//`'
-        - PLAY_TARGETBRANCH:   ${PLAY_TARGETBRANCH:=master} # Define as variable in the Docker environment or CIrcle CI step to overwrite
-        - PLAY_REMOTEREPO:     ${PLAY_REMOTEREPO:=origin}   # Define as variable in the Docker environment or CIrcle CI step to overwrite
+        - PLAY_TARGETBRANCH:   ${PLAY_TARGETBRANCH:=master} # Preset the variable to override default
+        - PLAY_REMOTEREPO:     ${PLAY_REMOTEREPO:=origin}   # Preset the variable to override default
       scene:
         verbose: 1
         dryrun:  0
