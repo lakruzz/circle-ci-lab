@@ -2,7 +2,6 @@
 version: 2
 jobs:
 
-
   prep-repo:
     working_directory: /app
     # The primary container is an instance of the first list image listed.
