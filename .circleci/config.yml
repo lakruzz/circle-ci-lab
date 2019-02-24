@@ -119,6 +119,22 @@ jobs:
           name: Deploy to GitHub Pages
           command: play --manuscript ../.circleci/play-proflow-cci-gh.yml --part ghpages_deploy
 
+  prod-deploy:
+    working_directory: /app/_site
+    docker:
+      - image: lakruzz/play:latest
+        environment:
+          PLAY_TARGET_GH_REPO:   lakruzz/stage-circle-lab
+          PLAY_USER_NAME:        Circle CI by @Lakruzz
+          PLAY_USER_EMAIL:       circleci@lakruzz.com
+    steps:
+      - restore_cache:
+          keys:
+            - the-built-repo-{{ .Revision }}
+      - run:
+          name: Deploy to GitHub Pages
+          command: play --manuscript ../.circleci/play-proflow-cci-gh.yml --part ghpages_deploy
+
 workflows:
   version: 2
   Proflow:
@@ -161,3 +177,15 @@ workflows:
             branches:
               only:
                 - /master/
+      - prod-deploy:
+          requires:
+            - integrate
+            - jekyll-build
+            - html-proofer
+            - test2
+            - test3
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^\d+\.\d+\.\d+$/ # Semantic version number (semver.org), followed by optional .(dot)+string https://regex101.com/r/0h0zLr/1
