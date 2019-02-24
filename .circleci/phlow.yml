@@ -37,6 +37,8 @@ manuscript:
         - run:
             caption: Capture version
             command: echo "Built from GitHub repo $PLAY_REPOSITORY version `git rev-parse --short HEAD`" > version.txt
+        - run:
+            command: cat version.txt
 
     ghpages_deploy:
       props:
