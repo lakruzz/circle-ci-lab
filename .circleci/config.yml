@@ -135,14 +135,11 @@ workflows:
               ignore:
                 - /master/
       - jekyll-build: # The thing to deploy
-          requires:
       - html-proofer: # Verify that the thing to deploy is good
           requires:
-            - integrate
             - jekyll-build
       - test2: # Run more tests in parallel
           requires:
-            - integrate
             - jekyll-build
       - test3: # Run more tests in parallel
           requires:
@@ -150,7 +147,6 @@ workflows:
             - jekyll-build
       - deliver: # Push the target branch to remote - only when all is good and only on ready branches
           requires:
-            - integrate
             - jekyll-build
             - html-proofer
             - test2
@@ -160,6 +156,11 @@ workflows:
               only:
                 - /ready\/.*/
       - stage-deploy:
+          requires:
+            - jekyll-build
+            - html-proofer
+            - test2
+            - test3
           filters:
             branches:
               only:
