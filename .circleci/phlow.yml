@@ -58,11 +58,9 @@ manuscript:
             command: git add -A .
             die_on_err: yes
         - run:
-            caption: Who am I?
-            command: |
-              git config user.name
-              git config user.email
-            die_on_err: yes
+            command: git config user.name
+        - run:
+            command: git config user.email
         - run:
             name: Git commit
             command: git commit -F version.txt
