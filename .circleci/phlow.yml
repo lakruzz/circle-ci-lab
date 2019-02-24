@@ -50,35 +50,31 @@ manuscript:
             command: git init
             die_on_err: yes
         - run:
-            caption: Set git push.default
-            command: git config --global push.default simple
+            caption: Set git push.default to be forgiven
+            command: git config push.default current
             die_on_err: yes
         - run:
-            caption: Set the git user.name
             command: git config user.name "$PLAY_USER_NAME"
-            die_on_err: yes
-        - run:
-            caption: Set the git.user.email
-            command: git config user.email "$PLAY_USER_EMAIL"
-            die_on_err: yes
-        - run:
-            caption: Set GitHub token remote
-            command: git remote add stage https://$PHLOW_GHTOKEN@github.com/$PLAY_GITREPO.git
-            die_on_err: yes
-        - run:
-            caption: Add all files
-            command: git add -A .
             die_on_err: yes
         - run:
             command: git config user.name
         - run:
+            command: git config user.email "$PLAY_USER_EMAIL"
+            die_on_err: yes
+        - run:
             command: git config user.email
         - run:
-            name: Git commit
+            caption: Add a remote that has permissions to write
+            command: git remote add stage https://$PHLOW_GHTOKEN@github.com/$PLAY_TARGET_GH_REPO.git
+            die_on_err: yes
+        - run:
+            command: git add -A .
+            die_on_err: yes
+        - run:
             command: git commit -F version.txt
             die_on_err: yes
         - run:
-            name: Git push depth 1
+            name: Git push using force, keep depth of target just 1
             command: git push -f stage master
             die_on_err: yes
 
