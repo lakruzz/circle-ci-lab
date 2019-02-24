@@ -50,6 +50,14 @@ manuscript:
             command: git config --global push.default simple
             die_on_err: yes
         - run:
+            caption: Set the git user.name
+            command: git config user.name "$PLAY_USER_NAME"
+            die_on_err: yes
+        - run:
+            caption: Set the git.user.email
+            command: git config user.email "$PLAY_USER_EMAIL"
+            die_on_err: yes
+        - run:
             caption: Set GitHub token remote
             command: git remote add ghtoken https://$PHLOW_GHTOKEN@github.com/$PLAY_GITREPO.git
             die_on_err: yes
