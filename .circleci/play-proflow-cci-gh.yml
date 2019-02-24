@@ -1,7 +1,6 @@
+# Designed to implement the Proflow using Circle CI and GitHub
 manuscript:
   props:
-    - PLAY_REMOTEREPO:   ${PLAY_REMOTEREPO:=origin}
-    - PLAY_TARGETBRANCH: ${PLAY_TARGETBRANCH:=master}
   scene:
     dryrun:  0
     verbose: 1
@@ -9,12 +8,9 @@ manuscript:
   parts:
     integrate:
       props:
-        - PLAY_VERSION:        ${CIRCLE_SHA1:=`git rev-parse HEAD`}
-        - PLAY_REPOSITORY_URL: ${CIRCLE_REPOSITORY_URL:=PLAY_REPOSITORY_URL}
-        - PLAY_REPOSITORY:     '`printenv PLAY_REPOSITORY_URL | sed  s/".*github.com[\/:]//" | sed s/.git//`'
-        - PLAY_TARGETBRANCH:   ${PLAY_TARGETBRANCH:=master}
-        - PLAY_REMOTEREPO:     ${PLAY_REMOTEREPO:=origin}
-
+        - PLAY_REPOSITORY:     '`printenv CIRCLE_REPOSITORY_URL | sed  s/".*github.com[\/:]//" | sed s/.git//`'
+        - PLAY_TARGETBRANCH:   ${PLAY_TARGETBRANCH:=master} # Define as variable in the Docker environment or CIrcle CI step to overwrite
+        - PLAY_REMOTEREPO:     ${PLAY_REMOTEREPO:=origin}   # Define as variable in the Docker environment or CIrcle CI step to overwrite
       scene:
         verbose: 1
         dryrun:  0
@@ -29,15 +25,11 @@ manuscript:
             command: git checkout $PLAY_TARGETBRANCH
             die_on_err: yes
         - run:
-            caption: Pull latest from remote target branch
-            command: git pull $PLAY_REMOTEREPO $PLAY_TARGETBRANCH
+            caption: Merge the ready-branch into target branch
+            command: git merge --ff-only $CIRCLE_BRANCH
             die_on_err: yes
         - run:
-            caption: Merge the triggering commit into target branch
-            command: git merge --ff-only $PLAY_VERRSION
-            die_on_err: yes
-        - run:
-            caption: Capture version
+            caption: Capture version in versions.txt
             command: echo "Built from GitHub repo $PLAY_REPOSITORY version `git rev-parse --short HEAD`" > version.txt
         - run:
             command: cat version.txt
@@ -48,11 +40,9 @@ manuscript:
         verbose: yes
       lines:
         - run:
-            caption: Make it a git repo
             command: git init
             die_on_err: yes
         - run:
-            caption: Set git push.default to be forgiven
             command: git config push.default current
             die_on_err: yes
         - run:
@@ -82,14 +72,13 @@ manuscript:
 
     deliver:
       props:
-        - PLAY_REPOSITORY_URL: ${CIRCLE_REPOSITORY_URL:=PLAY_REPOSITORY_URL}
-        - PLAY_REPOSITORY: '`printenv PLAY_REPOSITORY_URL | sed  s/".*github.com[\/:]//" | sed s/.git//`'
+        - PLAY_REPOSITORY: '`printenv CIRCLE_REPOSITORY_URL | sed  s/".*github.com[\/:]//" | sed s/.git//`'
       scene:
         dryrun:  no
         verbose: yes
       lines:
         - run:
-            caption: Set GitHub token remote
+            caption: Add a remote that has permissions to write
             command: git remote add integrated https://$PHLOW_GHTOKEN@github.com/$PLAY_REPOSITORY.git
             die_on_err: yes
         - run:
@@ -101,7 +90,7 @@ manuscript:
             command: git push integrated :$CIRCLE_BRANCH
             die_on_err: yes
 
-    git_prep:
+    git_set_user:
       props:
       scene:
         dryrun: no
