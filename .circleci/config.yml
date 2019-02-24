@@ -107,9 +107,9 @@ jobs:
     docker:
       - image: lakruzz/play:latest
         environment:
-          PLAY_GITREPO:      lakruzz/stage-circle-lab
-          PLAY_USER_NAME:    Circle CI by @Lakruzz
-          PLAY_USER_EMAIL:   circleci@lakruzz.com
+          PLAY_TARGET_GH_REPO:   lakruzz/stage-circle-lab
+          PLAY_USER_NAME:        Circle CI by @Lakruzz
+          PLAY_USER_EMAIL:       circleci@lakruzz.com
     steps:
       - restore_cache:
           keys:
