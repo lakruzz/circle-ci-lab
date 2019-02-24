@@ -9,8 +9,10 @@ manuscript:
   parts:
     integrate:
       props:
-        - PLAY_VERSION:      ${CIRCLE_SHA1:=`git rev-parse HEAD`}
-        - PLAY_VER:          '`printenv PLAY_VERSION | cut -c 1-7`'
+        - PLAY_VERSION:        ${CIRCLE_SHA1:=`git rev-parse HEAD`}
+        - PLAY_REPOSITORY_URL: ${CIRCLE_REPOSITORY_URL:=PLAY_REPOSITORY_URL}
+        - PLAY_REPOSITORY:     '`printenv PLAY_REPOSITORY_URL | sed  s/".*github.com[\/:]//" | sed s/.git//`'
+
       scene:
         verbose: 1
         dryrun:  0
@@ -30,11 +32,11 @@ manuscript:
             die_on_err: yes
         - run:
             caption: Merge the triggering commit into target branch
-            command: git merge --ff-only $PLAY_VER
+            command: git merge --ff-only $PLAY_VERRSION
             die_on_err: yes
         - run:
-            caption: Expose commit to cache
-            command: git rev-parse --short HEAD
+            caption: Capture version
+            command: echo "Built from GitHub repo $PLAY_REPOSITORY version `git rev-parse --short HEAD`" > version.txt
 
     ghpages_deploy:
       props:
@@ -59,7 +61,7 @@ manuscript:
             die_on_err: yes
         - run:
             caption: Set GitHub token remote
-            command: git remote add ghtoken https://$PHLOW_GHTOKEN@github.com/$PLAY_GITREPO.git
+            command: git remote add stage https://$PHLOW_GHTOKEN@github.com/$PLAY_GITREPO.git
             die_on_err: yes
         - run:
             caption: Add all files
@@ -80,22 +82,23 @@ manuscript:
 
     deliver:
       props:
-        - PLAY_GITREPO: '`git remote get-url  $PLAY_REMOTEREPO | sed  s/".*github.com[\/:]//" | sed s/.git//`'
+        - PLAY_REPOSITORY_URL: ${CIRCLE_REPOSITORY_URL:=PLAY_REPOSITORY_URL}
+        - PLAY_REPOSITORY: '`git remote get-url  $PLAY_REPOSITORY_URL | sed  s/".*github.com[\/:]//" | sed s/.git//`'
       scene:
         dryrun:  no
         verbose: yes
       lines:
         - run:
             caption: Set GitHub token remote
-            command: git remote add ghtoken https://$PHLOW_GHTOKEN@github.com/$PLAY_GITREPO.git
+            command: git remote add integrated https://$PHLOW_GHTOKEN@github.com/$PLAY_REPOSITORY.git
             die_on_err: yes
         - run:
             caption: Push current branch to GitHub
-            command: git push ghtoken
+            command: git push integrated
             die_on_err: yes
         - run:
             caption: Delete the remote triggering branch
-            command: git push ghtoken :$CIRCLE_BRANCH
+            command: git push integrated :$CIRCLE_BRANCH
             die_on_err: yes
 
     git_prep:

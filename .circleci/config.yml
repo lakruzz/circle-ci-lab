@@ -47,9 +47,7 @@ jobs:
           command: jekyll build
       - run:
           name: Log the version
-          command: |
-            git rev-parse --short HEAD > _site/version.txt
-            cat _site/version.txt
+          command: cp version.txt _site/version.txt
       - save_cache:
           key: the-built-repo-{{ .Revision }}
           paths:
