@@ -30,7 +30,7 @@ jobs:
           command: play --manuscript .circleci/play-proflow-cci-gh.yml --part git_set_user
       - run:
           name: If we're on a ready branch then integrate
-          command: 'printenv CIRCLECI_BRANCH | grep -e "ready\/*" && play --manuscript .circleci/play-proflow-cci-gh.yml --part integrate || echo Not a ready-branch'
+          command: 'printenv CIRCLE_BRANCH | grep -e "ready\/*" && play --manuscript .circleci/play-proflow-cci-gh.yml --part integrate || echo Not a ready-branch'
       - run:
           name: Create version.txt
           command: play --manuscript .circleci/play-proflow-cci-gh.yml --part write-version-to-file
