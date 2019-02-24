@@ -142,22 +142,47 @@ workflows:
   version: 2
   Proflow:
     jobs:
-      - prep-repo
+      - prep-repo:
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              only: /.*/
       - jekyll-build:
           requires: # Create the thing to deploy
             - prep-repo
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              only: /.*/
       - html-proofer: # Verify that the thing to deploy is good
           requires:
             - prep-repo
             - jekyll-build
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              only: /.*/
       - test2: # Run more tests in parallel
           requires:
             - prep-repo
             - jekyll-build
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              only: /.*/
       - test3: # Run more tests in parallel
           requires:
             - prep-repo
             - jekyll-build
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              only: /.*/
       - deliver: # Push the target branch to remote - only when all is good and only on ready branches
           requires:
             - prep-repo
