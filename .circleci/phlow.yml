@@ -83,7 +83,7 @@ manuscript:
     deliver:
       props:
         - PLAY_REPOSITORY_URL: ${CIRCLE_REPOSITORY_URL:=PLAY_REPOSITORY_URL}
-        - PLAY_REPOSITORY: '`printenv $PLAY_REPOSITORY_URL | sed  s/".*github.com[\/:]//" | sed s/.git//`'
+        - PLAY_REPOSITORY: '`printenv PLAY_REPOSITORY_URL | sed  s/".*github.com[\/:]//" | sed s/.git//`'
       scene:
         dryrun:  no
         verbose: yes
