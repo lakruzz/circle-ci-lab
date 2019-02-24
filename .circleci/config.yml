@@ -30,7 +30,7 @@ jobs:
           name: Swap to target branch and integrate
           command: play --manuscript .circleci/phlow.yml --part integrate
       - save_cache:
-          key: the-integrated-repo-{{.Revision}}
+          key: the-repo-{{.Revision}}
           paths:
             - .
 
@@ -41,7 +41,7 @@ jobs:
     steps:
       - restore_cache:
           keys:
-            - the-integrated-repo-{{ .Revision }}
+            - the-repo-{{ .Revision }}
       - run:
           name: Jekyll
           command: jekyll build
@@ -98,7 +98,7 @@ jobs:
     steps:
       - restore_cache:
           keys:
-            - the-integrated-repo-{{ .Revision }}
+            - the-repo-{{ .Revision }}
       - run:
           name: Deliver
           command: play --manuscript .circleci/phlow.yml --part deliver
@@ -133,6 +133,11 @@ workflows:
           filters:
             branches:
               ignore:
+                - /master/
+      - cache-repo:
+          filters:
+            branches:
+              only:
                 - /master/
       - jekyll-build # The thing to deploy
       - html-proofer: # Verify that the thing to deploy is good
