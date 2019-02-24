@@ -23,7 +23,7 @@ jobs:
             git rev-parse --short HEAD
       - run:
           name: If triggered by a tag, make sure it's annotated.
-          command: '[[ -z "$CIRCLE_TAG" ]] && echo "Not triggered by a tag" || echo "Checking if tag is annotated (required)" & git cat-file -p `git rev-parse $CIRCLE_TAG` | grep "^tag $CIRCLE_TAG$"'
+          command: '[[ -z "$CIRCLE_TAG" ]] && echo "Not triggered by a tag" || git cat-file -p `git rev-parse $CIRCLE_TAG` | grep "^tag $CIRCLE_TAG$"'
 
       - run:
           name: Introduce the user to the git repo, to prepare for delivery
