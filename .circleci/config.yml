@@ -22,7 +22,7 @@ jobs:
             env | sort | grep "CIRCLE"
 
             echo
-            echo "--------- Current directory is:""
+            echo "--------- Current directory is:"
             pwd
 
             echo
