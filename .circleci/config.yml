@@ -14,7 +14,7 @@ jobs:
       - run: # You can remove this step - it's purpose is simply to reveal some info about the state of the environment on Circle CI - can be handy, when unexpected things happen!
           name: Some Useful Debug Info
           command: |
-            echo "Git version:"
+            echo "--------- Git version:"
             git --version
 
             echo
@@ -31,8 +31,8 @@ jobs:
 
             echo
             echo "--------- SHA1 of HEAD and \$CIRCLE_SHA1 (they should be the same):"
-            echo HEAD:       `git rev-parse HEAD`
-            echo \$CIRCLE_SHA1 `printenv CIRCLE_SHA1
+            echo HEAD:          `git rev-parse HEAD`
+            echo \$CIRCLE_SHA1: `printenv CIRCLE_SHA1`
 
             echo
             echo "--------- Listing change set (names only) of \$CIRCLE_SHA1:"
