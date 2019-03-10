@@ -17,7 +17,7 @@ jobs:
           name: CIRCLE environment variables
           command: env | sort | grep "CIRCLE"
       - run: # Only prints debug info - you can delete this step
-          name: Change set of \$CIRCLE_SHA1
+          name: Change set of current commit
           command: git diff-tree  --no-commit-id --name-only -r $CIRCLE_SHA1
 
 
