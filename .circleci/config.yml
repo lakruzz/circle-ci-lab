@@ -14,23 +14,28 @@ jobs:
       - run: # You can remove this step - it's purpose is simply to reveal some info about the state of the environment on Circle CI - can be handy, when unexpected things happen!
           name: Some Useful Debug Info
           command: |
-            echo Git version:
+            echo "Git version:"
             git --version
 
-            echo Listing all CIRCLE... environment variables:
+            echo
+            echo "--------- Listing all CIRCLE... environment variables:"
             env | sort | grep "CIRCLE"
 
-            echo Current directory is:
+            echo
+            echo "--------- Current directory is:""
             pwd
 
-            echo Listing all files in current directory:
+            echo
+            echo "--------- Listing all files in current directory:"
             ls -a
 
-            echo SHA1 of HEAD and \$CIRCLE_SHA1 (they should be the same):
+            echo
+            echo "--------- SHA1 of HEAD and \$CIRCLE_SHA1 (they should be the same):"
             echo HEAD:       `git rev-parse HEAD`
             echo \$CIRCLE_SHA1 `printenv CIRCLE_SHA1
 
-            echo Listing change set (names only) of \$CIRCLE_SHA1:
+            echo
+            echo "--------- Listing change set (names only) of \$CIRCLE_SHA1:"
             git diff-tree  --no-commit-id --name-only -r $CIRCLE_SHA1
 
       - run:
