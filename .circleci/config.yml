@@ -20,16 +20,16 @@ jobs:
           name: Change set of \$CIRCLE_SHA1
             git diff-tree  --no-commit-id --name-only -r $CIRCLE_SHA1
 
-      - run: # 1st line stores the output of the grep in a variable. it looks for a
-             # match of our regexp in the names-only changeset of the current commit.
-             # this approach allows us to run grep - and fail (no match), without
-             # actually failing the Circle CI step and die from a no-match.
-             # 2nd line exploits -z test (-z is true when the variable is NOT defined) to
-             # have the logical AND come before the logical OR this construc depends on The
-             # command in the the logival AND never fails - that's why a simple echo is more
-             # than enough, so never run scripts at this position, if it fails it wil
-             # trigger the logical OR too (Ooh, snap! Auuch!)
-
+       # 1st line stores the output of the grep in a variable. it looks for a
+       # match of our regexp in the names-only changeset of the current commit.
+       # this approach allows us to run grep - and fail (no match), without
+       # actually failing the Circle CI step and die from a no-match.
+       # 2nd line exploits -z test (-z is true when the variable is NOT defined) to
+       # have the logical AND come before the logical OR this construc depends on The
+       # command in the the logival AND never fails - that's why a simple echo is more
+       # than enough, so never run scripts at this position, if it fails it wil
+       # trigger the logical OR too (Ooh, snap! Auuch!)
+      - run:
           name: Run if we should
           command: |
             export PLAY_RUN=$(git diff-tree  --no-commit-id --name-only -r $CIRCLE_SHA1 \
