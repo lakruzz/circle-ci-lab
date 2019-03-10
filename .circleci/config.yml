@@ -1,19 +1,20 @@
-path-trigger:
-  working_directory: /app
-  docker:
-    - image: lakruzz/play:latest
-      environment:
-        CIRCLE_PLAY_PATH_REGEXP: .github/labels.yml
-  steps:
-    - checkout
-    - run:
-        name: Run if we should
-        command: |
-          export PLAY_RUN=$(git diff-tree  --no-commit-id --name-only -r $CIRCLE_SHA1 \
-            | grep -e "$CIRCLE_PLAY_PATH_REGEXP")
-          [[ -z "$PLAY_RUN" ]] \
-            && echo "Not my call!" \
-            || echo "Yeeah! We have work to do, run your script here!"
+jobs:
+  path-trigger:
+    working_directory: /app
+    docker:
+      - image: lakruzz/play:latest
+        environment:
+          CIRCLE_PLAY_PATH_REGEXP: .github/labels.yml
+    steps:
+      - checkout
+      - run:
+          name: Run if we should
+          command: |
+            export PLAY_RUN=$(git diff-tree  --no-commit-id --name-only -r $CIRCLE_SHA1 \
+              | grep -e "$CIRCLE_PLAY_PATH_REGEXP")
+            [[ -z "$PLAY_RUN" ]] \
+              && echo "Not my call!" \
+              || echo "Yeeah! We have work to do, run your script here!"
 workflows:
   version: 2
   Proflow:
