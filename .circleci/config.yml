@@ -31,8 +31,8 @@ jobs:
 
             echo
             echo "--------- SHA1 of HEAD and \$CIRCLE_SHA1 (they should be the same):"
-            echo HEAD:          `git rev-parse HEAD`
-            echo \$CIRCLE_SHA1: `printenv CIRCLE_SHA1`
+            echo "HEAD:          `git rev-parse HEAD`"
+            echo "\$CIRCLE_SHA1: `printenv CIRCLE_SHA1`"
 
             echo
             echo "--------- Listing change set (names only) of \$CIRCLE_SHA1:"
@@ -42,7 +42,7 @@ jobs:
           name: Run if we should
           command: |
             export PLAY_RUN=$(git diff-tree  --no-commit-id --name-only -r $CIRCLE_SHA1 | grep -e "$PLAY_PATH_REGEXP")
-            '[[ -z "$PLAY_RUN" ]] && echo "The RegExp didn't match the Change set - nothing to do!" || echo "Yeeah! We have work to do, run your script here!"
+            [[ -z "$PLAY_RUN" ]] && echo "The RegExp didn't match the Change set - nothing to do!" || echo "Yeeah! We have work to do, run your script here!"
 
 workflows:
   version: 2
