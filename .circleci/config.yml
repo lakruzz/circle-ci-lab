@@ -8,7 +8,7 @@ jobs:
       - image: lakruzz/play:latest # https://github.com/lakruzz/play
         # For this particular job, the container could be any linux based container
         environment:
-          PLAY_PATH_REGEXP: somedir/test1.txt\|someotherdir/.* #the regexp to match
+          CIRCLE_PLAY_PATH_REGEXP: somedir/test1.txt\|someotherdir/.* #the regexp to match
             # The is passed onto grep (in shell context) so emember to escape chars
             # that should to be literal (most useful is the "or" pipe: | it should be \|)
     steps:
@@ -19,7 +19,6 @@ jobs:
       - run: # Only prints debug info - you can delete this step
           name: Change set of current commit
           command: git diff-tree  --no-commit-id --name-only -r $CIRCLE_SHA1
-
 
       - run:
           # 1st line stores the output of the grep in a variable. it looks for a
@@ -34,7 +33,7 @@ jobs:
           name: Run if we should
           command: |
             export PLAY_RUN=$(git diff-tree  --no-commit-id --name-only -r $CIRCLE_SHA1 \
-              | grep -e "$PLAY_PATH_REGEXP")
+              | grep -e "$CIRCLE_PLAY_PATH_REGEXP")
             [[ -z "$PLAY_RUN" ]] \
               && echo "Not my call!" \
               || echo "Yeeah! We have work to do, run your script here!"
