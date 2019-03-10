@@ -1,0 +1,40 @@
+
+version: 2
+jobs:
+  path-trigger:
+    working_directory: /app
+    docker:
+      - image: lakruzz/play:latest # https://github.com/lakruzz/play
+        # For this particular job, the container could be any linux based container
+        environment:
+          CIRCLE_PLAY_PATH_REGEXP: .github/labels.yml #the regexp to match
+            # The is passed onto grep (in shell context) so emember to escape chars
+            # that should to be literal (most useful is the "or" pipe: | it should be \|)
+    steps:
+      - checkout
+      - run: # Only prints debug info - you can delete this step
+          name: CIRCLE environment
+          command: env | sort | grep -e "^CIRCLE.*"
+      - run: # Only prints debug info - you can delete this step
+          name: Change set of current commit
+          command: git diff-tree  --no-commit-id --name-only -r $CIRCLE_SHA1
+      - run:
+          name: Check the changeset for a match in $CIRCLE_PLAY_PATH_REGEXP
+          command: |
+            if [[ \
+              $(git diff-tree  --no-commit-id --name-only -r `git rev-parse --short HEAD` \
+              | grep -e "$CIRCLE_PLAY_PATH_REGEXP") ]];\
+            then \
+              echo "Yeeah! We have work to do, run your script here"; \
+            else \
+              echo "Not my call\!";\
+            fi;
+
+workflows:
+  version: 2
+  Proflow:
+    jobs:
+      - path-trigger:
+          filters:
+            branches:
+              only: /^master$/
