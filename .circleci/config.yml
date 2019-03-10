@@ -11,23 +11,11 @@ jobs:
           PLAY_PATH_REGEXP: somedir/test1.txt\|somedir/.* #the regexp to match, remember to escape chars that should to be literal (most useful is the "or" pipe: | it should be \|)
     steps:
       - checkout
-      - run: # You can remove this step - it's purpose is simply to reveal some info about the state of the environment on Circle CI - can be handy, when unexpected things happen!
-          name: Some Useful Debug Info
-          command: |
-            echo "--------- Git version:"
-            git --version
-
-            echo
-            echo "--------- Listing all CIRCLE... environment variables:"
-            env | sort | grep "CIRCLE"
-
-            echo
-            echo "--------- Listing all files in current directory ($CIRCLE_WORKING_DIRECTORY):"
-            ls -a
-
-
-            echo
-            echo "--------- Listing change set (names only) of \$CIRCLE_SHA1:"
+      - run:
+          name: CIRCLE environment variables
+          command: env | sort | grep "CIRCLE"
+      - run:
+          name: Change set of \$CIRCLE_SHA1
             git diff-tree  --no-commit-id --name-only -r $CIRCLE_SHA1
 
       - run:
