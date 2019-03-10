@@ -22,17 +22,9 @@ jobs:
             env | sort | grep "CIRCLE"
 
             echo
-            echo "--------- Current directory is:"
-            pwd
-
-            echo
-            echo "--------- Listing all files in current directory:"
+            echo "--------- Listing all files in current directory ($CIRCLE_WORKING_DIRECTORY):"
             ls -a
 
-            echo
-            echo "--------- SHA1 of HEAD and \$CIRCLE_SHA1 (they should be the same):"
-            echo "HEAD:         `git rev-parse HEAD`"
-            echo "\$CIRCLE_SHA1: `printenv CIRCLE_SHA1`"
 
             echo
             echo "--------- Listing change set (names only) of \$CIRCLE_SHA1:"
