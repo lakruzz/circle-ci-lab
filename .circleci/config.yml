@@ -14,7 +14,7 @@ jobs:
     steps:
       - checkout
       - run: # Only prints debug info - you can delete this step
-          name: CIRCLE environment variables
+          name: CIRCLE environment
           command: env | sort | grep "CIRCLE"
       - run: # Only prints debug info - you can delete this step
           name: Change set of current commit
